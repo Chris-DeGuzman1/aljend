@@ -87,6 +87,7 @@ public class RandomProgrammer implements Programmer {
 			}
 
 		} catch (InvalidStatementException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new RuntimeException("Expression is invalid");
 		}
@@ -95,6 +96,7 @@ public class RandomProgrammer implements Programmer {
 
 	@Override
 	public WhileLoop makeWhileLoop(int maxDepth) {
+		// TODO Auto-generated method stub
 		try {
 			String whileLoop = "";
 			if (maxDepth > 0) {
@@ -113,6 +115,7 @@ public class RandomProgrammer implements Programmer {
 
 	@Override
 	public Conditional makeConditional(int maxDepth) {
+		// TODO Auto-generated method stub
 		try {
 			int parts = rand.nextInt(3);
 			String thisCondition = "if(" + variables[arrSelector] + " > " + makeExpression(maxDepth - 1) + ") {\n"
@@ -147,6 +150,7 @@ public class RandomProgrammer implements Programmer {
 
 	@Override
 	public Statement makeStatement(int maxDepth) {
+		// TODO Auto-generated method stub
 		String thisStatement = "";
 		try {
 			if (maxDepth > 0) { // checks if maxDepth isn't zero
@@ -198,6 +202,7 @@ public class RandomProgrammer implements Programmer {
 			}
 
 		} catch (InvalidStatementException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new RuntimeException("Expression is invalid");
 		}

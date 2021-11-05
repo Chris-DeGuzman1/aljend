@@ -11,6 +11,7 @@ public class WhileLoop extends CompoundStatement{
 
 	@Override
 	public int numberOfParts() {
+		// TODO Auto-generated method stub
 		int parts = 0;
 		if (this.isCompound()) {
 			for (int i = 0; i < this.textTokens.length; i++) {
