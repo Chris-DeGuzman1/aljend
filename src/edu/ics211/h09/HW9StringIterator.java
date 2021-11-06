@@ -2,89 +2,49 @@ package edu.ics211.h09;
 
 public class HW9StringIterator {
 	// class variables
-	String in;
-	int count;
-	
+	private String[] tokens;
+	private int count;
+
 	public HW9StringIterator(String s) {
 		// implementation of the constructor
-		this.in = s;
-		count = 0;
+		tokens = lexicalTokens(s);
+		count = -1;
+		for(String i: tokens){
+			System.out.print(i);
+		}
 	}
 
 	public boolean hasNext() {
 		// implementation of hasNext
-		if(in.substring(count) == null){
-			return false;
-		}else{
+		if (count< tokens.length && tokens[count+1] != null) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
-	public char next() {
+	public String next() {
 		// implementation of next -- may throw exception
-		if(hasNext()){
-			char i = in.charAt(count);
+		if (hasNext()) {
 			count++;
-			return i;
-		}else{
-			throw new ArrayIndexOutOfBoundsException();
+			return tokens[count++];
+		} else {
+			throw new IndexOutOfBoundsException();
 		}
 	}
 
 	// back up by one position -- needed sometimes when parsing
 	public void backUp() {
 		// implementation of backUp -- throws exception if already at beginning
+		if(count == 0){
+			throw new IndexOutOfBoundsException();
+		}
+		count--;
 	}
 
-	public static String parseFactor(HW9StringIterator in){
-		return null;
-	}
 
-	public static String parseExp(HW9StringIterator in){
-		return null;
-	}
-	public static String ParseParen(HW9StringIterator in){
-		return null;
-	}
-	public static String parseTerm(HW9StringIterator si) {
-		StringBuilder result = new StringBuilder();
-		if (! si.hasNext()) { /* error, print and throw an exception */ }
-		// the first thing we expect is an operand
-		// we immediately add it to the output postfix expression
-		result.append(parseFactor(si));
-		boolean done = false;
-		do {
-			// for a legal expression, after the operand we may see an operator,
-			// a closing parenthesis, or the end of the string
-			if (! si.hasNext()) {
-				break; // end of the string, we are done, exit the loop
-			}
-			char operator = si.next();
-			switch (operator) {
-				case '*': break;
-				case '/': break;
-				case '%': break;
-				// if we find a token that is not part of the factor,
-				// we back it up so that token can be processed by the method
-				// that called us
-				case '+': si.backUp(); done = true; break;
-				case '-': si.backUp(); done = true; break;
-				case ')': si.backUp(); done = true;  break;
-				default:  // error, print and throw an exception
-			}
-			if (! done) {
-				// now we read the second operand and add it to the result
-				result.append(" ");
-				result.append(parseFactor(si));
-				result.append(" ");
-				// now add the operator
-				result.append(operator);
-			}
-		} while (! done);
-		return String.valueOf(result);
-	}
 
-	// lexical tokens methods copied. Will use if needed.
+	// copied and pasted lexical tokens methods, will use if required
 	/**
 	 * @param: the string to analyze
 	 * @param: the index to look into for //
@@ -154,12 +114,11 @@ public class HW9StringIterator {
 	 *          digits, a little extra work (analogous to tokenizing
 	 *          identifiers) would let us tokenize them correctly.
 	 */
-
 	public String[] lexicalTokens(String in) {
 		java.util.ArrayList<String> result = new java.util.ArrayList<String>();
 		for (int i = 0; i < in.length(); i++) {
 			char c = in.charAt(i);
-			if (Character.isJavaIdentifierStart (c)) {
+			if (Character.isJavaIdentifierPart (c)) {
 				StringBuilder Id = new StringBuilder();
 				Id.append(c);
 				i++;
@@ -182,7 +141,4 @@ public class HW9StringIterator {
 		String[] typeMarker = new String[1];
 		return result.toArray(typeMarker);
 	}
-
-
-
 }
