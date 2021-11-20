@@ -1,5 +1,13 @@
 package edu.ics211.h10;
 
+/**
+ * @author Chris DeGuzman
+ * @summary h10
+ *          DoubleBinarySearchTree class which creates either an empty binary tree when the
+ *          parameter-less constructor is called or takes an array of doubles as a parameter
+ *          and creates a binary tree out of those values.
+ */
+
 public class DoubleBinarySearchTree {
     private Node rootNode;
 
@@ -9,19 +17,63 @@ public class DoubleBinarySearchTree {
     }
 
     // constructor, creates a binary search tree containing all the given values
-    public DoubleBinarySearchTree(double[] initialValues) {
-        int size = initialValues.length;
-        int max;
-        int n = 0;
-        // loop is empty because I just want the max that it calculates
-        for(max=0; (2^max)<=size; max++){
-            n++;
-        }
-        System.out.println(n);
 
-        for (double i : initialValues) {
-            add(i);
+    public DoubleBinarySearchTree(double[] initialValues) {
+        boolean done = false;
+        int n = initialValues.length;
+        int max = 0;
+        int pow = 0;
+        int index=0;
+        int j = 0;
+        // calculates the power of base 2 where size<=max
+        for (int i = 0; i <= n; i++) {
+            if (n <= getPow(2, i)) {
+                max = (int) getPow(2,i);
+                break;
+            }
+            pow++;
         }
+        System.out.println(max);
+        int count=0;
+        int pnum = max-1;
+        while(!done){
+            double num = getPow(2, pnum);
+            double den = getPow(2, max);
+            double factor = num/den;
+            index = Math.toIntExact(Math.round(n * factor));
+            add(initialValues[index]);
+
+            if(count>0) {
+                for (int i = 0; i < count; i++) {
+                    index += (int) Math.toIntExact(Math.round(n*2*factor));
+                    if(index>=n){
+                        add(initialValues[n-1]);
+                        break;
+                    }
+                    add(initialValues[index]);
+                }
+            }
+            if(pnum < 0){
+                done = true;
+            }
+            pnum--;
+            count+=getPow(2, j);
+            j++;
+        }
+        add(initialValues[10]);
+    }
+    private double getPow(int base, int power){
+        int i = base;
+        if(power ==0){
+            return 1;
+        }else if(power ==1){
+            return base;
+        }else{
+            for(int j = 1; j<power; j++){
+                i*=base;
+            }
+        }
+        return i;
     }
 
 
@@ -145,8 +197,15 @@ public class DoubleBinarySearchTree {
         }
     }
 
+    // main method for testing
+    /*
     public static void main(String[] args) {
-        double[] original = {50, 30, 70, 15, 7, 62, 22, 35, 87, 22, 31};
+
+    }
+*/
+    public static void main(String[] args){
+
+        double[] original = {7, 15, 22, 22, 30, 31, 35, 50, 62, 70, 87};
         DoubleBinarySearchTree myTree = new DoubleBinarySearchTree(original);
         System.out.println("Depth: " + myTree.depth());
         System.out.println("Size: " + myTree.size());
@@ -156,5 +215,17 @@ public class DoubleBinarySearchTree {
         for (double v : sorted) {
             System.out.print(v + " ");
         }
+
+/*        double[] original = {50, 30, 70, 15, 7, 62, 22, 35, 87, 22, 31};
+        DoubleBinarySearchTree myTree = new DoubleBinarySearchTree(original);
+        System.out.println("Depth: " + myTree.depth());
+        System.out.println("Size: " + myTree.size());
+        double[] sorted = myTree.all();
+
+
+        for (double v : sorted) {
+            System.out.print(v + " ");
+        }*/
+
     }
 }
