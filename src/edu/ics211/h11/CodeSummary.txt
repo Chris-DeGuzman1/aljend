@@ -1,0 +1,2 @@
+The BitStringInterface, like the name implies, is just an interface that contains the methods and parameters along with a description of how these methods should be implemented.
+The BitString class itself converts an array of bits to bytes. The Huffman class creates a huffman tree from the BitString objects that have been created.

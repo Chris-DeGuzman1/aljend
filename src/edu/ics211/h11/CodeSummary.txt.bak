@@ -1,0 +1,1 @@
+The BitStringInterface, like the name implies, is just an interface that conatins the methods and parameters along with a description of how these methods should be implemented.

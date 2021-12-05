@@ -148,14 +148,32 @@ public class Huffman {
     }
 
     public BitStringInterface encode(String s) {
-        BitString result = new BitString();
+        BitString result = new BitString(s.getBytes());
         // use the Huffman tree to encode this string
+        for(int i = 0; i<s.length();i++) {
+        	char temp = s.charAt(i);
+        	add(tree, temp);
+        }
         return result;
     }
 
     public String decode(BitStringInterface data) {
         StringBuilder result = new StringBuilder();
         // use the Huffman tree to decode this string
+        byte[] temp = data.toBytes();
+        HuffmanNode current = tree;
+        for(byte i: temp) {
+        	String bits = Integer.toBinaryString(i);
+        	for(int j = 0; j<bits.length();j++) {
+        		if(bits.charAt(j) == '0') {
+        			current = current.left;
+        		}
+        		else {
+        			current = current.right;
+        		}
+        	}
+        	result.append(current.value);
+        }
         return result.toString();
     }
 
